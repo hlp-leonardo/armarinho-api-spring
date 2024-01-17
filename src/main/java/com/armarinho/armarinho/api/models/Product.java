@@ -7,7 +7,6 @@ import java.util.List;
 @Entity
 @Table(name = "PRODUCTS")
 public class Product {
-
     @Id
     @Column(name = "PRODUCT_ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)

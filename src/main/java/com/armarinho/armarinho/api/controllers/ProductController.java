@@ -11,21 +11,20 @@ import java.util.List;
 @RequestMapping("/products")
 @RestController
 public class ProductController {
-
     private final ProductService service;
     public ProductController(ProductService service) {
         this.service = service;
-    }
-
-    @PostMapping
-    public Product create(@RequestBody Product product) {
-        product = service.create(product);
-        return product;
     }
 
     @GetMapping
     public List<Product> getAll() {
        List<Product> allProducts = service.getAll();
        return allProducts;
+    }
+
+    @PostMapping
+    public ProductDTO create(@RequestBody Product product) {
+        ProductDTO productDTO = service.create(product);
+        return productDTO;
     }
 }
