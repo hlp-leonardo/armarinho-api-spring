@@ -28,8 +28,8 @@ public class ProductTypeController {
     }
 
     @GetMapping("/{id}")
-    public Optional<ProductType> getOne(@PathVariable("id") int id) {
-        Optional<ProductType> productType = service.getOne(id);
+    public ProductType getOne(@PathVariable("id") int id) {
+        ProductType productType = service.getOne(id);
         return productType;
     }
 

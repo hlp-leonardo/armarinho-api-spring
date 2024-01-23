@@ -16,7 +16,7 @@ public class ProductTypeService {
         this.repository = repository;
     }
 
-    public ProductType create(@RequestBody ProductType productType) {
+    public ProductType create(ProductType productType) {
         productType = repository.save(productType);
         return productType;
     }
@@ -26,16 +26,16 @@ public class ProductTypeService {
         return allProductTypes;
     }
 
-    public Optional<ProductType> getOne(@PathVariable("id") int id) {
+    public ProductType getOne(int id) {
         Optional<ProductType> productType = repository.findById(id);
-        if (productType != null) {
-            return productType;
+        if (productType.isPresent()) {
+            return productType.get();
         } else {
             return null;
         }
     }
 
-    public ProductType update(int id, @RequestBody ProductType productType) {
+    public ProductType update(int id, ProductType productType) {
         ProductType existingProductType = new ProductType();
         existingProductType.setId(id);
         existingProductType.setName(productType.getName());
@@ -43,7 +43,7 @@ public class ProductTypeService {
         return productType;
     }
 
-    public void delete(@PathVariable("id") int id) {
+    public void delete(int id) {
         repository.deleteById(id);
     }
 }
