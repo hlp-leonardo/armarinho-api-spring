@@ -28,8 +28,8 @@ public class ProductColorController {
     }
 
     @GetMapping("/{id}")
-    public Optional<ProductColor> getOne(@PathVariable("id") int id) {
-        Optional<ProductColor> productColor = service.getOne(id);
+    public ProductColor getOne(@PathVariable("id") int id) {
+        ProductColor productColor = service.getOne(id);
         return productColor;
     }
 

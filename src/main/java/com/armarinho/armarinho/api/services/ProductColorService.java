@@ -1,5 +1,6 @@
 package com.armarinho.armarinho.api.services;
 
+import com.armarinho.armarinho.api.models.Product;
 import com.armarinho.armarinho.api.models.ProductColor;
 import com.armarinho.armarinho.api.repository.ProductColorRepository;
 import org.springframework.stereotype.Service;
@@ -26,21 +27,25 @@ public class ProductColorService {
         return allProductColors;
     }
 
-    public Optional<ProductColor> getOne(int id) {
+    public ProductColor getOne(int id) {
         Optional<ProductColor> productColor = repository.findById(id);
-        if (productColor != null) {
-            return productColor;
+        if (productColor.isPresent()) {
+            return productColor.get();
         } else {
             return null;
         }
     }
 
     public ProductColor update(int id, ProductColor productColor) {
-        ProductColor existingProductColor = new ProductColor();
-        existingProductColor.setId(id);
-        existingProductColor.setName(productColor.getName());
-        productColor = repository.save(existingProductColor);
-        return productColor;
+        Optional<ProductColor> existingProductColor = repository.findById(id);
+        if (existingProductColor.isPresent()) {
+            productColor.setId(existingProductColor.get().getId());
+            productColor.setName(productColor.getName());
+            productColor = repository.save(productColor);
+            return productColor;
+        } else {
+            return null;
+        }
     }
 
     public void delete(int id) {
