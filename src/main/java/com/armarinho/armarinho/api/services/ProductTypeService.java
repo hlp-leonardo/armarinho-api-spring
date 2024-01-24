@@ -34,11 +34,15 @@ public class ProductTypeService {
     }
 
     public ProductType update(int id, ProductType productType) {
-        ProductType existingProductType = new ProductType();
-        existingProductType.setId(id);
-        existingProductType.setName(productType.getName());
-        productType = repository.save(existingProductType);
-        return productType;
+        Optional<ProductType> existingProductType = repository.findById(id);
+        if (existingProductType.isPresent()) {
+            productType.setId(existingProductType.get().getId());
+            productType.setName(existingProductType.get().getName());
+            productType = repository.save(productType);
+            return productType;
+        } else  {
+            return null;
+        }
     }
 
     public void delete(int id) {
