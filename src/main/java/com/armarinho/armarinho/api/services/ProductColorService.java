@@ -16,7 +16,7 @@ public class ProductColorService {
         this.repository = repository;
     }
 
-    public ProductColor create(@RequestBody ProductColor productColor) {
+    public ProductColor create(ProductColor productColor) {
         productColor = repository.save(productColor);
         return productColor;
     }
@@ -26,7 +26,7 @@ public class ProductColorService {
         return allProductColors;
     }
 
-    public Optional<ProductColor> getOne(@PathVariable("id") int id) {
+    public Optional<ProductColor> getOne(int id) {
         Optional<ProductColor> productColor = repository.findById(id);
         if (productColor != null) {
             return productColor;
@@ -35,7 +35,7 @@ public class ProductColorService {
         }
     }
 
-    public ProductColor update(int id, @RequestBody ProductColor productColor) {
+    public ProductColor update(int id, ProductColor productColor) {
         ProductColor existingProductColor = new ProductColor();
         existingProductColor.setId(id);
         existingProductColor.setName(productColor.getName());
@@ -43,7 +43,7 @@ public class ProductColorService {
         return productColor;
     }
 
-    public void delete(@PathVariable("id") int id) {
+    public void delete(int id) {
         repository.deleteById(id);
     }
 }
