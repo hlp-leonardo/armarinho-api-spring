@@ -1,9 +1,7 @@
 package com.armarinho.armarinho.api.controllers;
 
-import com.armarinho.armarinho.api.dtos.ProductDTO;
 import com.armarinho.armarinho.api.models.Product;
 import com.armarinho.armarinho.api.services.ProductService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -31,8 +29,8 @@ public class ProductController {
     }
 
     @GetMapping("/{id}")
-    public Optional<Product> getOne(@PathVariable("id") int id) {
-        Optional<Product> product = service.getOne(id);
+    public Product getOne(@PathVariable("id") int id) {
+        Product product = service.getOne(id);
         return product;
     }
 

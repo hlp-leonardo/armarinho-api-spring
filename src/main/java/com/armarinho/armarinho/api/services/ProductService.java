@@ -3,8 +3,6 @@ package com.armarinho.armarinho.api.services;
 import com.armarinho.armarinho.api.models.Product;
 import com.armarinho.armarinho.api.repository.ProductRepository;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 import java.util.Optional;
@@ -16,7 +14,7 @@ public class ProductService {
             this.repository = repository;
     }
 
-    public Product create(@RequestBody Product product) {
+    public Product create(Product product) {
         product = repository.save(product);
         return product;
     }
@@ -26,21 +24,28 @@ public class ProductService {
         return allProducts;
     }
 
-    public Optional<Product> getOne(@PathVariable("id") int id) {
+    public Product getOne(int id) {
         Optional<Product> product = repository.findById(id);
-        return product;
+        if (product.isPresent()) {
+            return product.get();
+        }
+        return null;
     }
 
-    public Product update(@PathVariable("id") int id, @RequestBody Product product) {
-        Product existingProduct = new Product();
-        existingProduct.setId(id);
-        existingProduct.setName(product.getName());
-        existingProduct.setPrice(product.getPrice());
-        product = repository.save(existingProduct);
-        return product;
+    public Product update(int id, Product product) {
+        Optional<Product> existingProduct = repository.findById(id);
+        if (existingProduct.isPresent()) {
+            product.setId(existingProduct.get().getId());
+            product.setName(existingProduct.get().getName());
+            product.setPrice(existingProduct.get().getPrice());
+            product = repository.save(product);
+            return product;
+        } else {
+            return null;
+        }
     }
 
-    public void delete(@PathVariable("id") int id) {
+    public void delete(int id) {
         repository.deleteById(id);
     }
 }
