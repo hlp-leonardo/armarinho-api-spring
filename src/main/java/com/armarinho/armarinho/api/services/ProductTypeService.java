@@ -3,8 +3,6 @@ package com.armarinho.armarinho.api.services;
 import com.armarinho.armarinho.api.models.ProductType;
 import com.armarinho.armarinho.api.repository.ProductTypeRepository;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 import java.util.Optional;
