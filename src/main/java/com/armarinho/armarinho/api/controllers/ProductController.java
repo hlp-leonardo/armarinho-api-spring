@@ -1,5 +1,6 @@
 package com.armarinho.armarinho.api.controllers;
 
+import com.armarinho.armarinho.api.dtos.ProductDTO;
 import com.armarinho.armarinho.api.models.Product;
 import com.armarinho.armarinho.api.services.ProductService;
 import org.springframework.web.bind.annotation.*;
@@ -17,27 +18,27 @@ public class ProductController {
     }
 
     @PostMapping
-    public Product create(@RequestBody Product product) {
-        product = service.create(product);
-        return product;
+    public ProductDTO create(@RequestBody Product product) {
+        ProductDTO createProduct = service.create(product);
+        return createProduct;
     }
 
     @GetMapping
-    public List<Product> getAll() {
-       List<Product> allProducts = service.getAll();
+    public List<ProductDTO> getAll() {
+       List<ProductDTO> allProducts = service.getAll();
        return allProducts;
     }
 
     @GetMapping("/{id}")
-    public Product getOne(@PathVariable("id") int id) {
-        Product product = service.getOne(id);
+    public ProductDTO getOne(@PathVariable("id") int id) {
+        ProductDTO product = service.getOne(id);
         return product;
     }
 
     @PutMapping("/{id}")
-    public Product update(@PathVariable("id") int id, @RequestBody Product product) {
-        product = service.update(id, product);
-        return product;
+    public ProductDTO update(@PathVariable("id") int id, @RequestBody Product product) {
+        ProductDTO updateProduct = service.update(id, product);
+        return updateProduct;
     }
 
     @DeleteMapping("/{id}")
