@@ -1,12 +1,11 @@
 package com.armarinho.armarinho.api.services;
 
-import com.armarinho.armarinho.api.models.Product;
+import com.armarinho.armarinho.api.dtos.ProductColorDTO;
 import com.armarinho.armarinho.api.models.ProductColor;
 import com.armarinho.armarinho.api.repository.ProductColorRepository;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,38 +16,114 @@ public class ProductColorService {
         this.repository = repository;
     }
 
-    public ProductColor create(ProductColor productColor) {
-        productColor = repository.save(productColor);
-        return productColor;
+    private ProductColorDTO convertToProductColorDTO(ProductColor productColor) {
+        ProductColorDTO productColorDTO = new ProductColorDTO();
+        productColorDTO.setId(productColor.getId());
+        productColorDTO.setName(productColor.getName());
+        return productColorDTO;
     }
 
-    public List<ProductColor> getAll() {
+    private List<ProductColorDTO> convertListToProductColorDTO(List<ProductColor> productColorList) {
+        List<ProductColorDTO> allProductColorsDTO = new ArrayList<>();
+        for (int i=0; i<productColorList.size(); i++) {
+            ProductColor existingProductColor = productColorList.get(i);
+            if (existingProductColor != null) {
+                ProductColorDTO productColorDTO = new ProductColorDTO();
+                productColorDTO.setId(existingProductColor.getId());
+                productColorDTO.setName(existingProductColor.getName());
+                allProductColorsDTO.add(productColorDTO);
+            }
+        }
+        return allProductColorsDTO;
+    }
+
+    private void checkIdNull(Integer id) throws Exception {
+        if (id==null) {
+            throw new Exception("ProductColor id null or invalid.");
+        }
+    }
+
+    private void checkIfNameIsBlank(ProductColor productColor) throws Exception {
+        productColor.setName(productColor.getName().trim());
+        String checkName = productColor.getName();
+        if (checkName.isEmpty()) {
+            throw new Exception("ProductColor name can not be blank.");
+        }
+    }
+
+    private void checkIfNameExists(ProductColor productColor) throws Exception {
+        productColor.setName(productColor.getName());
+        String newName = productColor.getName();
         List<ProductColor> allProductColors = repository.findAll();
-        return allProductColors;
-    }
-
-    public ProductColor getOne(int id) {
-        Optional<ProductColor> productColor = repository.findById(id);
-        if (productColor.isPresent()) {
-            return productColor.get();
-        } else {
-            return null;
+        for (int i=0; i< allProductColors.size(); i++) {
+            ProductColor existingProductColor = allProductColors.get(i);
+            if (existingProductColor.getName().equals(newName)) {
+                throw new Exception("ProductColor name already exists.");
+            }
         }
     }
 
-    public ProductColor update(int id, ProductColor productColor) {
-        Optional<ProductColor> existingProductColor = repository.findById(id);
-        if (existingProductColor.isPresent()) {
-            productColor.setId(existingProductColor.get().getId());
-            productColor.setName(productColor.getName());
+    public ProductColorDTO create(ProductColor productColor) throws Exception {
+        checkIfNameIsBlank(productColor);
+        checkIfNameExists(productColor);
+        try {
             productColor = repository.save(productColor);
-            return productColor;
-        } else {
-            return null;
+            ProductColorDTO productColorDTO = convertToProductColorDTO(productColor);
+            return productColorDTO;
+        } catch (Exception e) {
+            throw new Exception("ProductColor could not be created.");
         }
     }
 
-    public void delete(int id) {
-        repository.deleteById(id);
+    public List<ProductColorDTO> getAll()throws Exception {
+        try {
+            List<ProductColor> allProductColors = repository.findAll();
+            List<ProductColorDTO> allProductColorsDTO = convertListToProductColorDTO(allProductColors);
+            return allProductColorsDTO;
+        } catch (Exception e) {
+            throw new Exception("ProductColor list could not be displayed.");
+        }
+    }
+
+    public ProductColorDTO getOne(int id) throws Exception {
+        checkIdNull(id);
+        try {
+            Optional<ProductColor> productColor = repository.findById(id);
+            if (productColor.isPresent()) {
+                ProductColorDTO productColorDTO = convertToProductColorDTO(productColor.get());
+                return productColorDTO;
+            } else {
+                return null;
+            }
+        } catch (Exception e) {
+            throw new Exception("ProductColor could not be displayed.");
+        }
+    }
+
+    public ProductColorDTO update(int id, ProductColor productColor) throws Exception {
+        checkIdNull(id);
+        checkIfNameIsBlank(productColor);
+        checkIfNameIsBlank(productColor);
+        try {
+            Optional<ProductColor> existingProductColor = repository.findById(id);
+            if (existingProductColor.isPresent()) {
+                existingProductColor.get().setName(productColor.getName());
+                ProductColorDTO productColorDTO = convertToProductColorDTO(existingProductColor.get());
+                return productColorDTO;
+            } else {
+                return null;
+            }
+        } catch (Exception e) {
+            throw new Exception("ProductColor could not be updated.");
+        }
+    }
+
+    public void delete(int id) throws Exception {
+        checkIdNull(id);
+        try {
+            repository.deleteById(id);
+        } catch (Exception e) {
+            throw new Exception("ProductColor could not be deleted.");
+        }
     }
 }
