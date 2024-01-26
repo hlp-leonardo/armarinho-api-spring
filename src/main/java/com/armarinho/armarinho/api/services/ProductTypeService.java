@@ -37,41 +37,94 @@ public class ProductTypeService {
         return allProductTypesDTO;
     }
 
-    public ProductTypeDTO create(ProductType productType) {
-        productType = repository.save(productType);
-        ProductTypeDTO productTypeDTO = convertToProductTypeDTO(productType);
-        return productTypeDTO;
+    private void checkIdNull(Integer id) throws Exception {
+        if (id==null) {
+            throw new Exception("ProductType id null or invalid.");
+        }
     }
 
-    public List<ProductTypeDTO> getAll() {
+    private void checkIfNameIsBlank(ProductType productType) throws Exception {
+        productType.setName(productType.getName().trim());
+        String checkName = productType.getName();
+        if (checkName.isEmpty()) {
+            throw new Exception("ProductType name can not be blank.");
+        }
+    }
+
+    private void checkIfNameExists(ProductType productType) throws Exception {
+        productType.setName(productType.getName());
+        String newName = productType.getName();
         List<ProductType> allProductTypes = repository.findAll();
-        List<ProductTypeDTO> allProductTypesDTO = convertListToProductTypeDTO(allProductTypes);
-        return allProductTypesDTO;
-    }
-
-    public ProductTypeDTO getOne(int id) {
-        Optional<ProductType> productType = repository.findById(id);
-        if (productType.isPresent()) {
-            ProductTypeDTO productTypeDTO = convertToProductTypeDTO(productType.get());
-            return productTypeDTO;
-        } else {
-            return null;
+        for (int i=0; i< allProductTypes.size(); i++) {
+            ProductType existingProductType = allProductTypes.get(i);
+            if (existingProductType.getName().equals(newName)) {
+                throw new Exception("ProductType name already exists.");
+            }
         }
     }
 
-    public ProductTypeDTO update(int id, ProductType productType) {
-        Optional<ProductType> existingProductType = repository.findById(id);
-        if (existingProductType.isPresent()) {
-            existingProductType.get().setName(productType.getName());
-            repository.save(existingProductType.get());
-            ProductTypeDTO productTypeDTO = convertToProductTypeDTO(existingProductType.get());
+    public ProductTypeDTO create(ProductType productType) throws Exception {
+        checkIfNameIsBlank(productType);
+        checkIfNameExists(productType);
+        try {
+            productType = repository.save(productType);
+            ProductTypeDTO productTypeDTO = convertToProductTypeDTO(productType);
             return productTypeDTO;
-        } else  {
-            return null;
+        } catch (Exception e) {
+            throw new Exception("ProductType name could not be created.");
         }
     }
 
-    public void delete(int id) {
-        repository.deleteById(id);
+    public List<ProductTypeDTO> getAll() throws Exception {
+        try {
+            List<ProductType> allProductTypes = repository.findAll();
+            List<ProductTypeDTO> allProductTypesDTO = convertListToProductTypeDTO(allProductTypes);
+            return allProductTypesDTO;
+        } catch (Exception e) {
+            throw new Exception("ProductType list could not be displayed.");
+        }
+    }
+
+    public ProductTypeDTO getOne(int id) throws Exception {
+        checkIdNull(id);
+        try {
+            Optional<ProductType> productType = repository.findById(id);
+            if (productType.isPresent()) {
+                ProductTypeDTO productTypeDTO = convertToProductTypeDTO(productType.get());
+                return productTypeDTO;
+            } else {
+                return null;
+            }
+        } catch (Exception e) {
+            throw new Exception("ProductType could not be displayed.");
+        }
+    }
+
+    public ProductTypeDTO update(int id, ProductType productType) throws Exception {
+        checkIdNull(id);
+        checkIfNameExists(productType);
+        checkIfNameIsBlank(productType);
+        try {
+            Optional<ProductType> existingProductType = repository.findById(id);
+            if (existingProductType.isPresent()) {
+                existingProductType.get().setName(productType.getName());
+                repository.save(existingProductType.get());
+                ProductTypeDTO productTypeDTO = convertToProductTypeDTO(existingProductType.get());
+                return productTypeDTO;
+            } else {
+                return null;
+            }
+        } catch (Exception e) {
+            throw new Exception("ProductType could not be updated.");
+        }
+    }
+
+    public void delete(int id) throws Exception {
+        checkIdNull(id);
+        try {
+            repository.deleteById(id);
+        } catch (Exception e) {
+            throw new Exception("ProductType could not be deleted.");
+        }
     }
 }
