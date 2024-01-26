@@ -16,102 +16,114 @@ public class ProductService {
             this.repository = repository;
     }
 
+    private ProductDTO convertToProductDTO(Product product) {
+        ProductDTO productDTO = new ProductDTO();
+        productDTO.setId(product.getId());
+        productDTO.setName(product.getName());
+        return productDTO;
+    }
+
+    private List<ProductDTO> convertListToProductDTO(List<Product> productList) {
+        List<ProductDTO> allProductsDTO = new ArrayList<>();
+        for (int i=0; i<productList.size(); i++) {
+            Product existingProduct = productList.get(i);
+            if (existingProduct != null) {
+                ProductDTO productDTO = new ProductDTO();
+                productDTO.setId(existingProduct.getId());
+                productDTO.setName(existingProduct.getName());
+                productDTO.setPrice(existingProduct.getPrice());
+                allProductsDTO.add(productDTO);
+            }
+        }
+        return allProductsDTO;
+    }
+
     private void checkIdNull(Integer id) throws Exception {
         if (id==null) {
             throw new Exception("Product id null or invalid.");
         }
     }
 
-    private void checkObjectFields(Product product) throws Exception {
+    private void checkIfNameIsBlank(Product product) throws Exception {
         product.setName(product.getName().trim());
         String checkName = product.getName();
-
-        product.setPrice(product.getPrice());
-        Double checkPrice = product.getPrice();
-
-        if (checkName.isEmpty()){
+        if (checkName.isEmpty()) {
             throw new Exception("Product name can not be blank.");
-        } else if (checkPrice < 0  || checkPrice.toString().isEmpty()) {
-            throw new Exception("Product price can not be blank or less than 0.");
         }
     }
 
     private void checkIfNameExists(Product product) throws Exception {
-        product.setName(product.getName().trim());
+        product.setName(product.getName());
         String newName = product.getName();
-
-        List<Product> allProducts = new ArrayList<>();
-        for (int i=0; i<allProducts.size(); i++) {
+        List<Product> allProducts = repository.findAll();
+        for (int i=0; i< allProducts.size(); i++) {
             Product existingProduct = allProducts.get(i);
-            existingProduct.getName();
             if (existingProduct.getName().equals(newName)) {
                 throw new Exception("Product name already exists.");
             }
         }
     }
-////////////////////////////////////////////////////////////////////////////////
+
     public ProductDTO create(Product product) throws Exception {
-        checkObjectFields(product);
+        checkIfNameIsBlank(product);
         checkIfNameExists(product);
         try {
             product = repository.save(product);
-
-            ProductDTO createProductDTO = new ProductDTO();
-            createProductDTO.setName(product.getName());
-            createProductDTO.setPrice(product.getPrice());
-
-            return createProductDTO;
+            ProductDTO productDTO = convertToProductDTO(product);
+            return productDTO;
         } catch (Exception e) {
             throw new Exception("Product could not be created.");
         }
     }
-////////////////////////////////////////////////////////////////////////////////
+
         public List<ProductDTO> getAll() throws Exception {
             try {
                 List<Product> allProducts = repository.findAll();
-                List<ProductDTO> allProductsDTO = new ArrayList<>();
-
-                for (int i=0; i< allProducts.size(); i++) {
-                    Product existingProduct = allProducts.get(i);
-                    if (existingProduct != null) {
-                        ProductDTO existingProductDTO = new ProductDTO();
-                        existingProductDTO.setId(existingProduct.getId());
-                        existingProductDTO.setName(existingProduct.getName());
-                        existingProductDTO.setPrice(existingProduct.getPrice());
-                    }
-                }
+                List<ProductDTO> allProductsDTO = convertListToProductDTO(allProducts);
                 return allProductsDTO;
             } catch (Exception e) {
-                throw new Exception("Product could not be created.");
+                throw new Exception("Product list could not be displayed.");
             }
         }
-////////////////////////////////////////////////////////////////////////////////
-    public Product getOne(int id) throws Exception {
+
+    public ProductDTO getOne(int id) throws Exception {
         checkIdNull(id);
-        Optional<Product> product = repository.findById(id);
-        if (product.isPresent()) {
-            return product.get();
+        try {
+            Optional<Product> product = repository.findById(id);
+            if (product.isPresent()) {
+                ProductDTO productDTO = convertToProductDTO(product.get());
+                return productDTO;
+            } else {
+                return null;
+            }
+        } catch (Exception e) {
+            throw new Exception("Product could not be displayed.");
         }
-        return null;
     }
-////////////////////////////////////////////////////////////////////////////////
-    public Product update(int id, Product product) throws Exception {
+
+    public ProductDTO update(int id, Product product) throws Exception {
         checkIdNull(id);
-        checkObjectFields(product);
+        checkIfNameIsBlank(product);
         checkIfNameExists(product);
-        Optional<Product> existingProduct = repository.findById(id);
-        if (existingProduct.isPresent()) {
-            product.setId(existingProduct.get().getId());
-            product.setName(existingProduct.get().getName());
-            product.setPrice(existingProduct.get().getPrice());
-            product = repository.save(product);
-            return product;
-        } else {
-            return null;
+        try {
+            Optional<Product> existingProduct = repository.findById(id);
+            if (existingProduct.isPresent()) {
+                existingProduct.get().setName(product.getName());
+                ProductDTO productDTO = convertToProductDTO(existingProduct.get());
+                return productDTO;
+            } else {
+                return null;
+            }
+        } catch (Exception e) {
+            throw new Exception("Product could not be updated.");
         }
     }
-////////////////////////////////////////////////////////////////////////////////
-    public void delete(int id) {
-        repository.deleteById(id);
+
+    public void delete(int id) throws Exception {
+        try {
+            repository.deleteById(id);
+        } catch (Exception e) {
+            throw new Exception("Product could not be deleted.");
+        }
     }
 }
