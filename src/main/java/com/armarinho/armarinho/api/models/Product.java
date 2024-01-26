@@ -19,10 +19,10 @@ public class Product {
     @Column(name = "PRODUCT_PRICE")
     private double price;
 
-//    @ManyToOne
+ //   @ManyToOne
 //    @JoinColumn(name = "PRODUCT_TYPE_FK")
 //    private ProductType productType;
-//
+
 //    @ManyToOne
 //    @JoinColumn(name = "PRODUCT_SIZE_FK")
 //    private ProductSize productSize;
