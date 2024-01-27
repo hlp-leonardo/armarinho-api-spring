@@ -2,6 +2,7 @@ package com.armarinho.armarinho.api.controllers;
 
 import com.armarinho.armarinho.api.dtos.ProductDTO;
 import com.armarinho.armarinho.api.models.Product;
+import com.armarinho.armarinho.api.models.ProductType;
 import com.armarinho.armarinho.api.services.ProductService;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,8 +26,8 @@ public class ProductController {
 
     @GetMapping
     public List<ProductDTO> getAll() throws Exception {
-       List<ProductDTO> allProducts = service.getAll();
-       return allProducts;
+        List<ProductDTO> allProducts = service.getAll();
+        return allProducts;
     }
 
     @GetMapping("/{id}")

@@ -2,15 +2,16 @@ package com.armarinho.armarinho.api.dtos;
 
 public class ProductDTO {
 
-    private int id;
+    private Integer id;
     private String name;
     private double price;
+    private ProductTypeDTO productTypeDTO;
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -28,5 +29,13 @@ public class ProductDTO {
 
     public void setPrice(double price) {
         this.price = price;
+    }
+
+    public ProductTypeDTO getProductTypeDTO() {
+        return productTypeDTO;
+    }
+
+    public void setProductTypeDTO(ProductTypeDTO productTypeDTO) {
+        this.productTypeDTO = productTypeDTO;
     }
 }

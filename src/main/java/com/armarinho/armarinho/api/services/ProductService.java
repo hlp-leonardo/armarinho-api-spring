@@ -1,7 +1,9 @@
 package com.armarinho.armarinho.api.services;
 
 import com.armarinho.armarinho.api.dtos.ProductDTO;
+import com.armarinho.armarinho.api.dtos.ProductTypeDTO;
 import com.armarinho.armarinho.api.models.Product;
+import com.armarinho.armarinho.api.models.ProductType;
 import com.armarinho.armarinho.api.repository.ProductRepository;
 import org.springframework.stereotype.Service;
 
@@ -76,15 +78,15 @@ public class ProductService {
         }
     }
 
-        public List<ProductDTO> getAll() throws Exception {
-            try {
-                List<Product> allProducts = repository.findAll();
-                List<ProductDTO> allProductsDTO = convertListToProductDTO(allProducts);
-                return allProductsDTO;
-            } catch (Exception e) {
-                throw new Exception("Product list could not be displayed.");
-            }
+    public List<ProductDTO> getAll() throws Exception {
+        try {
+            List<Product> allProducts = repository.findAll();
+            List<ProductDTO> allProductsDTO = convertListToProductDTO(allProducts);
+            return allProductsDTO;
+        } catch (Exception e) {
+            throw new Exception("Product list could not be displayed.");
         }
+    }
 
     public ProductDTO getOne(int id) throws Exception {
         checkIdNull(id);
