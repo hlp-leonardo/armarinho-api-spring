@@ -18,18 +18,18 @@ public class Product {
     @Column(name = "PRODUCT_PRICE")
     private double price;
 
-//    @ManyToOne
-//    @JoinColumn(name = "PRODUCT_TYPE_FK")
-//    private ProductType productType;
-//
+    @ManyToOne
+    @JoinColumn(name = "PRODUCT_TYPE_FK")
+    private ProductType productType;
+
+    @ManyToOne
+    @JoinColumn(name = "PRODUCT_COLOR_FK")
+    private ProductColor productColor;
+
 //    @ManyToOne
 //    @JoinColumn(name = "PRODUCT_SIZE_FK")
 //    private ProductSize productSize;
-//
-//    @ManyToOne
-//    @JoinColumn(name = "PRODUCT_COLOR_FK")
-//    private ProductColor productColor;
-//
+
 //    @ManyToMany
 //    @JoinTable(name = "SALE_PRODUCTS", joinColumns = @JoinColumn(name = "PRODUCT_FK"), inverseJoinColumns = @JoinColumn(name = "SALE_FK"))
 //    private List<Sale> sales;
@@ -58,34 +58,34 @@ public class Product {
         this.price = price;
     }
 
-//    public ProductType getProductType() {
-//        return productType;
-//    }
-//
-//    public void setProductType(ProductType productType) {
-//        this.productType = productType;
-//    }
-//
+    public ProductType getProductType() {
+        return productType;
+    }
+
+    public void setProductType(ProductType productType) {
+        this.productType = productType;
+    }
+
+    public ProductColor getProductColor() {
+        return productColor;
+    }
+
+    public void setProductColor(ProductColor productColor) {
+        this.productColor = productColor;
+    }
+
 //    public ProductSize getProductSize() {
 //        return productSize;
 //    }
-//
+
 //    public void setProductSize(ProductSize productSize) {
 //        this.productSize = productSize;
 //    }
-//
-//    public ProductColor getProductColor() {
-//        return productColor;
-//    }
-//
-//    public void setProductColor(ProductColor productColor) {
-//        this.productColor = productColor;
-//    }
-//
+
 //    public List<Sale> getSales() {
 //        return sales;
 //    }
-//
+
 //    public void setSales(List<Sale> sales) {
 //        this.sales = sales;
 //    }

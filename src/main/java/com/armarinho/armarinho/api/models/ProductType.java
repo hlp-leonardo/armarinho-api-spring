@@ -15,8 +15,8 @@ public class ProductType {
     @Column(name = "PRODUCT_TYPE_NAME")
     private String name;
 
-//    @OneToMany(mappedBy = "productType")
-//    private List<Product> product;
+    @OneToMany(mappedBy = "productType")
+    private List<Product> product;
 
     public Integer getId() {
         return id;
@@ -34,11 +34,11 @@ public class ProductType {
         this.name = name;
     }
 
-//    public List<Product> getProduct() {
-//        return product;
-//    }
-//
-//    public void setProduct(List<Product> product) {
-//        this.product = product;
-//    }
+    public List<Product> getProduct() {
+        return product;
+    }
+
+    public void setProduct(List<Product> product) {
+        this.product = product;
+    }
 }
