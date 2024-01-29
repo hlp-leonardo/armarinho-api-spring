@@ -16,7 +16,7 @@ public class ProductColor {
     private String name;
 
     @OneToMany(mappedBy = "productColor")
-    private List<Product> product;
+    private List<Product> products;
 
     public Integer getId() {
         return id;
@@ -35,10 +35,10 @@ public class ProductColor {
     }
 
     public List<Product> getProduct() {
-        return product;
+        return products;
     }
 
     public void setProduct(List<Product> product) {
-        this.product = product;
+        this.products = product;
     }
 }
