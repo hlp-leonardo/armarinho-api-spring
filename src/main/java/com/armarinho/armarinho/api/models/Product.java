@@ -26,9 +26,9 @@ public class Product {
     @JoinColumn(name = "PRODUCT_COLOR_FK")
     private ProductColor productColor;
 
-//    @ManyToOne
-//    @JoinColumn(name = "PRODUCT_SIZE_FK")
-//    private ProductSize productSize;
+    @ManyToOne
+    @JoinColumn(name = "PRODUCT_SIZE_FK")
+    private ProductSize productSize;
 
 //    @ManyToMany
 //    @JoinTable(name = "SALE_PRODUCTS", joinColumns = @JoinColumn(name = "PRODUCT_FK"), inverseJoinColumns = @JoinColumn(name = "SALE_FK"))
@@ -74,13 +74,13 @@ public class Product {
         this.productColor = productColor;
     }
 
-//    public ProductSize getProductSize() {
-//        return productSize;
-//    }
+    public ProductSize getProductSize() {
+        return productSize;
+    }
 
-//    public void setProductSize(ProductSize productSize) {
-//        this.productSize = productSize;
-//    }
+    public void setProductSize(ProductSize productSize) {
+        this.productSize = productSize;
+    }
 
 //    public List<Sale> getSales() {
 //        return sales;
