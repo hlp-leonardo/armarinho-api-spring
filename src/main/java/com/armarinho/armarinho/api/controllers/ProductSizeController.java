@@ -28,8 +28,8 @@ public class ProductSizeController {
     }
 
     @GetMapping("/{id}")
-    public ProductSizeDTO getOne(@PathVariable("id") int id, @RequestBody ProductSize productSize) throws Exception {
-        ProductSizeDTO productSizeDTO = service.getOne(productSize);
+    public ProductSizeDTO getOne(@PathVariable("id") int id) throws Exception {
+        ProductSizeDTO productSizeDTO = service.getOne(id);
         return productSizeDTO;
     }
 

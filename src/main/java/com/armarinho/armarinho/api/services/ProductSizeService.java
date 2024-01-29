@@ -22,7 +22,7 @@ public class ProductSizeService {
         return null;
     }
 
-    public ProductSizeDTO getOne(ProductSize productSize) throws Exception {
+    public ProductSizeDTO getOne(int id) throws Exception {
         return null;
     }
 
