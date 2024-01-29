@@ -6,7 +6,6 @@ import com.armarinho.armarinho.api.services.ProductTypeService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RequestMapping("/product-types")
 @RestController

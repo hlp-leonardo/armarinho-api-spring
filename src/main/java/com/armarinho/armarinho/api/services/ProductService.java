@@ -1,9 +1,7 @@
 package com.armarinho.armarinho.api.services;
 
 import com.armarinho.armarinho.api.dtos.ProductDTO;
-import com.armarinho.armarinho.api.dtos.ProductTypeDTO;
 import com.armarinho.armarinho.api.models.Product;
-import com.armarinho.armarinho.api.models.ProductType;
 import com.armarinho.armarinho.api.repository.ProductRepository;
 import org.springframework.stereotype.Service;
 

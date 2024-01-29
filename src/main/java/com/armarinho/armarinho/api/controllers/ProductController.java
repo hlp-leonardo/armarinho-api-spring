@@ -2,12 +2,10 @@ package com.armarinho.armarinho.api.controllers;
 
 import com.armarinho.armarinho.api.dtos.ProductDTO;
 import com.armarinho.armarinho.api.models.Product;
-import com.armarinho.armarinho.api.models.ProductType;
 import com.armarinho.armarinho.api.services.ProductService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RequestMapping("/products")
 @RestController
