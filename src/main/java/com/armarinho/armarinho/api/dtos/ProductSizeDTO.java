@@ -1,8 +1,8 @@
 package com.armarinho.armarinho.api.dtos;
 
 public class ProductSizeDTO {
-    Integer id;
-    String name;
+    private Integer id;
+    private String name;
 
     public Integer getId() {
         return id;
