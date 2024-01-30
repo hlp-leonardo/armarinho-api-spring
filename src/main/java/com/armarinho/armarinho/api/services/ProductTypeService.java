@@ -43,29 +43,27 @@ public class ProductTypeService {
         }
     }
 
-    private void checkIfNameIsBlank(ProductType productType) throws Exception {
-        productType.setName(productType.getName().trim());
-        String checkName = productType.getName();
-        if (checkName.isEmpty()) {
+    private void checkIfNameIsBlank(String name) throws Exception {
+        if (name.isEmpty()) {
             throw new Exception("ProductType name can not be blank.");
         }
     }
 
-    private void checkIfNameExists(ProductType productType) throws Exception {
-        productType.setName(productType.getName());
-        String newName = productType.getName();
+    private void checkIfNameExists(String name) throws Exception {
         List<ProductType> allProductTypes = repository.findAll();
         for (int i=0; i< allProductTypes.size(); i++) {
             ProductType existingProductType = allProductTypes.get(i);
-            if (existingProductType.getName().equals(newName)) {
+            if (existingProductType.getName().equals(name)) {
                 throw new Exception("ProductType name already exists.");
             }
         }
     }
 
     public ProductTypeDTO create(ProductType productType) throws Exception {
-        checkIfNameIsBlank(productType);
-        checkIfNameExists(productType);
+        productType.setName(productType.getName().trim());
+        String name = productType.getName();
+        checkIfNameIsBlank(name);
+        checkIfNameExists(name);
         try {
             productType = repository.save(productType);
             ProductTypeDTO productTypeDTO = convertToProductTypeDTO(productType);
@@ -102,8 +100,10 @@ public class ProductTypeService {
 
     public ProductTypeDTO update(int id, ProductType productType) throws Exception {
         checkIdNull(id);
-        checkIfNameExists(productType);
-        checkIfNameIsBlank(productType);
+        productType.setName(productType.getName().trim());
+        String name = productType.getName();
+        checkIfNameIsBlank(name);
+        checkIfNameExists(name);
         try {
             Optional<ProductType> existingProductType = repository.findById(id);
             if (existingProductType.isPresent()) {

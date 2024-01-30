@@ -44,29 +44,27 @@ public class ProductService {
         }
     }
 
-    private void checkIfNameIsBlank(Product product) throws Exception {
-        product.setName(product.getName().trim());
-        String checkName = product.getName();
-        if (checkName.isEmpty()) {
+    private void checkIfNameIsBlank(String name) throws Exception {
+        if (name.isEmpty()) {
             throw new Exception("Product name can not be blank.");
         }
     }
 
-    private void checkIfNameExists(Product product) throws Exception {
-        product.setName(product.getName());
-        String newName = product.getName();
+    private void checkIfNameExists(String name) throws Exception {
         List<Product> allProducts = repository.findAll();
         for (int i=0; i< allProducts.size(); i++) {
             Product existingProduct = allProducts.get(i);
-            if (existingProduct.getName().equals(newName)) {
+            if (existingProduct.getName().equals(name)) {
                 throw new Exception("Product name already exists.");
             }
         }
     }
 
     public ProductDTO create(Product product) throws Exception {
-        checkIfNameIsBlank(product);
-        checkIfNameExists(product);
+        product.setName(product.getName().trim());
+        String name = product.getName();
+        checkIfNameIsBlank(name);
+        checkIfNameExists(name);
         try {
             product = repository.save(product);
             ProductDTO productDTO = convertToProductDTO(product);
@@ -103,12 +101,16 @@ public class ProductService {
 
     public ProductDTO update(int id, Product product) throws Exception {
         checkIdNull(id);
-        checkIfNameIsBlank(product);
-        checkIfNameExists(product);
+        product.setName(product.getName().trim());
+        String name = product.getName();
+        checkIfNameIsBlank(name);
+        checkIfNameExists(name);
         try {
             Optional<Product> existingProduct = repository.findById(id);
             if (existingProduct.isPresent()) {
                 existingProduct.get().setName(product.getName());
+                existingProduct.get().setPrice(product.getPrice());
+                repository.save(existingProduct.get());
                 ProductDTO productDTO = convertToProductDTO(existingProduct.get());
                 return productDTO;
             } else {
@@ -120,6 +122,7 @@ public class ProductService {
     }
 
     public void delete(int id) throws Exception {
+        checkIdNull(id);
         try {
             repository.deleteById(id);
         } catch (Exception e) {

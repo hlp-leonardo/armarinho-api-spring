@@ -43,29 +43,27 @@ public class ProductColorService {
         }
     }
 
-    private void checkIfNameIsBlank(ProductColor productColor) throws Exception {
-        productColor.setName(productColor.getName().trim());
-        String checkName = productColor.getName();
-        if (checkName.isEmpty()) {
+    private void checkIfNameIsBlank(String name) throws Exception {
+        if (name.isEmpty()) {
             throw new Exception("ProductColor name can not be blank.");
         }
     }
 
-    private void checkIfNameExists(ProductColor productColor) throws Exception {
-        productColor.setName(productColor.getName());
-        String newName = productColor.getName();
+    private void checkIfNameExists(String name) throws Exception {
         List<ProductColor> allProductColors = repository.findAll();
         for (int i=0; i< allProductColors.size(); i++) {
             ProductColor existingProductColor = allProductColors.get(i);
-            if (existingProductColor.getName().equals(newName)) {
+            if (existingProductColor.getName().equals(name)) {
                 throw new Exception("ProductColor name already exists.");
             }
         }
     }
 
     public ProductColorDTO create(ProductColor productColor) throws Exception {
-        checkIfNameIsBlank(productColor);
-        checkIfNameExists(productColor);
+        productColor.setName(productColor.getName().trim());
+        String name = productColor.getName();
+        checkIfNameIsBlank(name);
+        checkIfNameExists(name);
         try {
             productColor = repository.save(productColor);
             ProductColorDTO productColorDTO = convertToProductColorDTO(productColor);
@@ -102,12 +100,15 @@ public class ProductColorService {
 
     public ProductColorDTO update(int id, ProductColor productColor) throws Exception {
         checkIdNull(id);
-        checkIfNameIsBlank(productColor);
-        checkIfNameIsBlank(productColor);
+        productColor.setName(productColor.getName().trim());
+        String name = productColor.getName();
+        checkIfNameIsBlank(name);
+        checkIfNameExists(name);
         try {
             Optional<ProductColor> existingProductColor = repository.findById(id);
             if (existingProductColor.isPresent()) {
                 existingProductColor.get().setName(productColor.getName());
+                repository.save(existingProductColor.get());
                 ProductColorDTO productColorDTO = convertToProductColorDTO(existingProductColor.get());
                 return productColorDTO;
             } else {

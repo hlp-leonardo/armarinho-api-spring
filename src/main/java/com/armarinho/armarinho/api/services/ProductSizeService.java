@@ -43,29 +43,27 @@ public class ProductSizeService {
         }
     }
 
-    private void checkIfNameIsBlank(ProductSize productSize) throws Exception {
-        productSize.setName(productSize.getName().trim());
-        String checkName = productSize.getName();
-        if (checkName.isEmpty()) {
+    private void checkIfNameIsBlank(String name) throws Exception {
+        if (name.isEmpty()) {
             throw new Exception("ProductSize name can not be blank.");
         }
     }
 
-    private void checkIfNameExists(ProductSize productSize) throws Exception {
-        productSize.setName(productSize.getName());
-        String newName = productSize.getName();
+    private void checkIfNameExists(String name) throws Exception {
         List<ProductSize> allProductSizes = repository.findAll();
         for (int i=0; i< allProductSizes.size(); i++) {
             ProductSize existingProductSize = allProductSizes.get(i);
-            if (existingProductSize.getName().equals(newName)) {
+            if (existingProductSize.getName().equals(name)) {
                 throw new Exception("ProductSize name already exists.");
             }
         }
     }
 
     public ProductSizeDTO create(ProductSize productSize) throws Exception {
-        checkIfNameIsBlank(productSize);
-        checkIfNameExists(productSize);
+        productSize.setName(productSize.getName());
+        String name = productSize.getName();
+        checkIfNameIsBlank(name);
+        checkIfNameExists(name);
         try {
             productSize = repository.save(productSize);
             ProductSizeDTO productSizeDTO = convertToProductSizeDTO(productSize);
@@ -102,12 +100,15 @@ public class ProductSizeService {
 
     public ProductSizeDTO update(int id, ProductSize productSize) throws Exception {
         checkIdNull(id);
-        checkIfNameIsBlank(productSize);
-        checkIfNameExists(productSize);
+        productSize.setName(productSize.getName());
+        String name = productSize.getName();
+        checkIfNameIsBlank(name);
+        checkIfNameExists(name);
         try {
             Optional<ProductSize> existingProductSize = repository.findById(id);
             if (existingProductSize.isPresent()) {
                 existingProductSize.get().setName(productSize.getName());
+                repository.save(existingProductSize.get());
                 ProductSizeDTO productSizeDTO = convertToProductSizeDTO(existingProductSize.get());
                 return productSizeDTO;
             } else {
