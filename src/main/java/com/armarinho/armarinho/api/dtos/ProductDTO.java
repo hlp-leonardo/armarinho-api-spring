@@ -5,7 +5,9 @@ public class ProductDTO {
     private Integer id;
     private String name;
     private double price;
-    private ProductTypeDTO productTypeDTO;
+    private ProductTypeDTO productType;
+    private ProductColorDTO productColor;
+    private ProductSizeDTO productSize;
 
     public Integer getId() {
         return id;
@@ -31,11 +33,27 @@ public class ProductDTO {
         this.price = price;
     }
 
-    public ProductTypeDTO getProductTypeDTO() {
-        return productTypeDTO;
+    public ProductTypeDTO getProductType() {
+        return productType;
     }
 
-    public void setProductTypeDTO(ProductTypeDTO productTypeDTO) {
-        this.productTypeDTO = productTypeDTO;
+    public void setProductTypeDTO(ProductTypeDTO productType) {
+        this.productType = productType;
+    }
+
+    public ProductColorDTO getProductColor() {
+        return productColor;
+    }
+
+    public void setProductColor(ProductColorDTO productColor) {
+        this.productColor = productColor;
+    }
+
+    public ProductSizeDTO getProductSize() {
+        return productSize;
+    }
+
+    public void setProductSize(ProductSizeDTO productSize) {
+        this.productSize = productSize;
     }
 }

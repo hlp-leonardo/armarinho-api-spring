@@ -1,5 +1,7 @@
 package com.armarinho.armarinho.api.models;
 
+import com.armarinho.armarinho.api.dtos.ProductDTO;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.List;
