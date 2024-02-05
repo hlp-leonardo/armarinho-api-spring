@@ -1,25 +1,26 @@
 package com.armarinho.armarinho.api.dtos;
 
+import java.time.Instant;
 import java.util.Date;
 
 public class SaleDTO {
-    int id;
-    Date date;
+    Integer id;
+    Instant date;
     ProductDTO product;
 
     public int getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public Date getDate() {
+    public Instant getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(Instant date) {
         this.date = date;
     }
 
