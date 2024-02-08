@@ -2,11 +2,12 @@ package com.armarinho.armarinho.api.dtos;
 
 import java.time.Instant;
 import java.util.Date;
+import java.util.List;
 
 public class SaleDTO {
     Integer id;
     Instant date;
-    ProductDTO product;
+    List<ProductDTO> products;
 
     public int getId() {
         return id;
@@ -24,11 +25,11 @@ public class SaleDTO {
         this.date = date;
     }
 
-    public ProductDTO getProduct() {
-        return product;
+    public List<ProductDTO> getProducts() {
+        return products;
     }
 
-    public void setProduct(ProductDTO product) {
-        this.product = product;
+    public void setProducts(List<ProductDTO> products) {
+        this.products = products;
     }
 }

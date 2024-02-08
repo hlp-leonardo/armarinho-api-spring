@@ -16,8 +16,8 @@ public class SaleController {
     }
 
     @PostMapping
-    public SaleDTO create(@RequestBody Sale sale) throws Exception {
-        SaleDTO createSale = service.create(sale);
+    public SaleDTO create(@RequestBody List<Integer> ids) throws Exception {
+        SaleDTO createSale = service.create(ids);
         return createSale;
     }
 

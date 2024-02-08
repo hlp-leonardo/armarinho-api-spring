@@ -1,5 +1,6 @@
 package com.armarinho.armarinho.api.models;
 
+import com.armarinho.armarinho.api.dtos.ProductTypeDTO;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import org.hibernate.annotations.Cascade;

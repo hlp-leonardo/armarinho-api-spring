@@ -42,9 +42,9 @@ public class ProductService {
                 ProductTypeDTO productTypeDTO = convertToProductTypeDTO(existingProduct.getProductType());
                 productDTO.setProductTypeDTO(productTypeDTO);
                 ProductColorDTO productColorDTO = convertToProductColorDTO(existingProduct.getProductColor());
-                productDTO.setProductColor(productColorDTO);
+                productDTO.setProductColorDTO(productColorDTO);
                 ProductSizeDTO productSizeDTO = convertToProductZiseDTO(existingProduct.getProductSize());
-                productDTO.setProductSize(productSizeDTO);
+                productDTO.setProductSizeDTO(productSizeDTO);
                 allProductsDTO.add(productDTO);
             }
         }
@@ -105,9 +105,9 @@ public class ProductService {
             ProductTypeDTO productTypeDTO = convertToProductTypeDTO(product.getProductType());
             productDTO.setProductTypeDTO(productTypeDTO);
             ProductColorDTO productColorDTO = convertToProductColorDTO(product.getProductColor());
-            productDTO.setProductColor(productColorDTO);
+            productDTO.setProductColorDTO(productColorDTO);
             ProductSizeDTO productSizeDTO = convertToProductZiseDTO(product.getProductSize());
-            productDTO.setProductSize(productSizeDTO);
+            productDTO.setProductSizeDTO(productSizeDTO);
             return productDTO;
         } catch (Exception e) {
             throw new Exception("Product could not be created.");
@@ -133,9 +133,9 @@ public class ProductService {
                 ProductTypeDTO productTypeDTO = convertToProductTypeDTO(product.get().getProductType());
                 productDTO.setProductTypeDTO(productTypeDTO);
                 ProductColorDTO productColorDTO = convertToProductColorDTO(product.get().getProductColor());
-                productDTO.setProductColor(productColorDTO);
+                productDTO.setProductColorDTO(productColorDTO);
                 ProductSizeDTO productSizeDTO = convertToProductZiseDTO(product.get().getProductSize());
-                productDTO.setProductSize(productSizeDTO);
+                productDTO.setProductSizeDTO(productSizeDTO);
                 return productDTO;
             } else {
                 return null;
@@ -164,9 +164,9 @@ public class ProductService {
                 ProductTypeDTO productTypeDTO = convertToProductTypeDTO(product.getProductType());
                 productDTO.setProductTypeDTO(productTypeDTO);
                 ProductColorDTO productColorDTO = convertToProductColorDTO(product.getProductColor());
-                productDTO.setProductColor(productColorDTO);
+                productDTO.setProductColorDTO(productColorDTO);
                 ProductSizeDTO productSizeDTO = convertToProductZiseDTO(product.getProductSize());
-                productDTO.setProductSize(productSizeDTO);
+                productDTO.setProductSizeDTO(productSizeDTO);
                 return productDTO;
             } else {
                 return null;
