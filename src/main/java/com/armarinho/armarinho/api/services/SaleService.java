@@ -4,6 +4,7 @@ import com.armarinho.armarinho.api.dtos.*;
 import com.armarinho.armarinho.api.models.*;
 import com.armarinho.armarinho.api.repository.ProductRepository;
 import com.armarinho.armarinho.api.repository.SaleRepository;
+import jakarta.persistence.criteria.CriteriaBuilder;
 import org.springframework.stereotype.Service;
 
 import java.sql.Date;
@@ -44,18 +45,6 @@ public class SaleService {
             }
         }
         return allSalesDTO;
-    }
-
-    private ProductDTO convertToProductDTO(Product product) {
-        ProductDTO productDTO = new ProductDTO();
-        productDTO.setId(product.getId());
-        productDTO.setName(product.getName());
-        productDTO.setPrice(product.getPrice());
-        convertToProductTypeDTO(product.getProductType());
-        productDTO.setProductTypeDTO(convertToProductTypeDTO(product.getProductType()));
-        productDTO.setProductColorDTO(convertToProductColorDTO(product.getProductColor()));
-        productDTO.setProductSizeDTO(convertToProductZiseDTO(product.getProductSize()));
-        return productDTO;
     }
 
     private List<ProductDTO> convertListToProductDTO(List<Product> products) {
@@ -132,11 +121,10 @@ public class SaleService {
         try {
             Optional<Sale> sale = repository.findById(id);
             if (sale.isPresent()) {
-//                SaleDTO saleDTO = convertToProductDTO(sale.get());
-//                ProductDTO productDTO = convertToProductDTO(sale.get().getProducts());
-//                saleDTO.setProduct(productDTO);
-//                return saleDTO;
-                return null;
+                SaleDTO saleDTO = convertToSaleDTO(sale.get());
+                List<ProductDTO> productDTO = convertListToProductDTO(sale.get().getProducts());
+                saleDTO.setProducts(productDTO);
+                return saleDTO;
             } else {
                 return null;
             }
@@ -145,17 +133,18 @@ public class SaleService {
         }
     }
 
-    public SaleDTO update(int id, Sale sale) throws Exception {
+    public SaleDTO update(int id, Sale sale, List<Integer> ids) throws Exception {
         checkIdNull(id);
         try {
             Optional<Sale> existingSale = repository.findById(id);
             if (existingSale.isPresent()) {
-                existingSale.get().setDate(sale.getDate());
-                existingSale.get().setProducts(sale.getProducts());
+                List<Product> products = productRepository.findAllById(ids);
+                existingSale.get().setDate(Date.from(Instant.now()));
+                existingSale.get().setProducts(products);
                 repository.save(existingSale.get());
                 SaleDTO saleDTO = convertToSaleDTO(existingSale.get());
-//                ProductDTO productDTO = convertToProductDTO(sale.getProducts());
-//                saleDTO.setProduct(productDTO);
+                List<ProductDTO> productDTO = convertListToProductDTO(products);
+                saleDTO.setProducts(productDTO);
                 return saleDTO;
             } else {
                 return null;
