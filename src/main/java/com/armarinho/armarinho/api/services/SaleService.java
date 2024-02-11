@@ -38,7 +38,7 @@ public class SaleService {
                 SaleDTO saleDTO = new SaleDTO();
                 saleDTO.setId(existingSale.getId());
                 saleDTO.setDate(existingSale.getDate().toInstant());
-                ProductDTO productDTO = convertToProductDTO(existingSale.getProducts().get(i));
+                List <ProductDTO> productDTO = convertListToProductDTO(existingSale.getProducts());
                 saleDTO.setProducts(productDTO);
                 allSalesDTO.add(saleDTO);
             }

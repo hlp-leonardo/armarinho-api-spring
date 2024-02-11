@@ -145,7 +145,7 @@ public class ProductService {
         }
     }
 
-    public ProductDTO update(int id, Product product) throws Exception {
+     public ProductDTO update(int id, Product product) throws Exception {
         checkIdNull(id);
         product.setName(product.getName().trim());
         String name = product.getName();
@@ -154,7 +154,6 @@ public class ProductService {
         try {
             Optional<Product> existingProduct = repository.findById(id);
             if (existingProduct.isPresent()) {
-                existingProduct.get().setName(product.getName());
                 existingProduct.get().setPrice(product.getPrice());
                 existingProduct.get().setProductType(product.getProductType());
                 existingProduct.get().setProductColor(product.getProductColor());
