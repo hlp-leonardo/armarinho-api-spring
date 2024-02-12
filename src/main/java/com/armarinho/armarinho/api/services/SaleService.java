@@ -133,16 +133,17 @@ public class SaleService {
         }
     }
 
-    public SaleDTO update(int id, Sale sale, List<Integer> ids) throws Exception {
+    public SaleDTO update(int id, List<Integer> ids) throws Exception {
         checkIdNull(id);
         try {
-            Optional<Sale> existingSale = repository.findById(id);
-            if (existingSale.isPresent()) {
+            Optional<Sale> sale = repository.findById(id);
+            if (sale.isPresent()) {
+                Sale existingSale = sale.get();
+                existingSale.setDate(Date.from(Instant.now()));
                 List<Product> products = productRepository.findAllById(ids);
-                existingSale.get().setDate(Date.from(Instant.now()));
-                existingSale.get().setProducts(products);
-                repository.save(existingSale.get());
-                SaleDTO saleDTO = convertToSaleDTO(existingSale.get());
+                existingSale.setProducts(products);
+                repository.save(existingSale);
+                SaleDTO saleDTO = convertToSaleDTO(existingSale);
                 List<ProductDTO> productDTO = convertListToProductDTO(products);
                 saleDTO.setProducts(productDTO);
                 return saleDTO;

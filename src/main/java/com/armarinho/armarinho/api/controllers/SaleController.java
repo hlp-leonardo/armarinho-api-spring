@@ -34,8 +34,8 @@ public class SaleController {
     }
 
     @PutMapping("/{id}")
-    public SaleDTO update(@PathVariable("id") int id, @RequestBody Sale sale, @RequestBody List<Integer> ids) throws Exception {
-        SaleDTO updatetedSale = service.update(id, sale, ids);
+    public SaleDTO update(@PathVariable("id") int id, @RequestBody List<Integer> ids) throws Exception {
+        SaleDTO updatetedSale = service.update(id, ids);
         return updatetedSale;
     }
 
