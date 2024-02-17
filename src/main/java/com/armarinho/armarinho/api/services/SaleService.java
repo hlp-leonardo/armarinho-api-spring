@@ -5,6 +5,7 @@ import com.armarinho.armarinho.api.models.*;
 import com.armarinho.armarinho.api.repository.ProductRepository;
 import com.armarinho.armarinho.api.repository.SaleRepository;
 import jakarta.persistence.criteria.CriteriaBuilder;
+import org.hibernate.collection.spi.PersistentList;
 import org.springframework.stereotype.Service;
 
 import java.sql.Date;
@@ -91,11 +92,47 @@ public class SaleService {
 
     public SaleDTO create(List<Integer> ids) throws Exception {
         try {
-            List<Product> products = productRepository.findAllById(ids);
             Sale sale = new Sale();
+            sale.setId(sale.getId());
             sale.setDate(Date.from(Instant.now()));
             sale = repository.save(sale);
-            sale.setProducts(products);
+            List<Product> products = productRepository.findAllById(ids);
+//            List<Product> products = new ArrayList<>();
+            for (int i=0; i<ids.size(); i++) {
+                /*
+                List<Product> soldProductList = new ArrayList<>();
+                soldProductList.add(products.get(i));
+                Product soldProduct = soldProductList.get(i);
+                 */
+                /*
+                int soldProductId = ids.get(i);
+                Optional<Product> soldProduct = productRepository.findById(soldProductId);
+                Product existingProduct = soldProduct.get();
+                products.add(existingProduct);
+                */
+                /*
+                existingProduct.setId(soldProduct.get().getId());
+                existingProduct.setName(soldProduct.get().getName());
+                existingProduct.setPrice(soldProduct.get().getPrice());
+                existingProduct.setProductType(soldProduct.get().getProductType());
+                existingProduct.setProductColor(soldProduct.get().getProductColor());
+                existingProduct.setProductSize(soldProduct.get().getProductSize());
+                products.add(existingProduct);
+                */
+//                List<Sale> createdsale = new ArrayList<>();
+//                createdsale.add(sale);
+//                Product product = new Product();
+//                product = products.get(i);
+//                product.setId(product.getId());
+//                product.setName(product.getName());
+//                product.setPrice(product.getPrice());
+//                product.setProductType(product.getProductType());
+//                product.setProductColor(product.getProductColor());
+//                product.setProductSize(product.getProductSize());
+//                product.setSales(createdsale);
+//                products.add(product);
+            }
+//            sale.setProducts(products);
             repository.save(sale);
             SaleDTO saleDTO = convertToSaleDTO(sale);
             List<ProductDTO> productsDTO = convertListToProductDTO(products);
