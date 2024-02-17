@@ -41,6 +41,12 @@ public class ProductController {
         return updateProduct;
     }
 
+    @PutMapping("/{id}/productType/{typeId}")
+    public ProductDTO update(@PathVariable("id") Product product, @PathVariable("typeId") int typeId) throws Exception {
+        ProductDTO productTypeInProduct = service.update(typeId, product);
+        return productTypeInProduct;
+    }
+
     @DeleteMapping("/{id}")
     public void delete(@PathVariable("id") int id) throws Exception {
         service.delete(id);
