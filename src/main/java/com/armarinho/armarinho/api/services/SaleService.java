@@ -94,9 +94,10 @@ public class SaleService {
         try {
             List<Product> products = productRepository.findAllById(ids);
             Sale sale = new Sale();
+            sale.setDate(Date.from(Instant.now()));
             sale = repository.save(sale);
-            sale.setProducts(products);
-            repository.save(sale);
+            //sale.setProducts(products);
+            //repository.save(sale);
             for (int i=0; i< products.size(); i++) {
                 products.get(i).getSales().add(sale);
             }
@@ -105,7 +106,7 @@ public class SaleService {
             SaleDTO saleDTO = convertToSaleDTO(sale);
             List<ProductDTO> productsDTO = convertListToProductDTO(products);
             saleDTO.setProducts(productsDTO);
-            return null;
+            return saleDTO;
         } catch (Exception e) {
             throw new Exception("Sale could not be created.");
         }
@@ -141,13 +142,16 @@ public class SaleService {
     public SaleDTO update(int id, List<Integer> ids) throws Exception {
         checkIdNull(id);
         try {
-            Optional<Sale> existingSale = repository.findById(id);
-            if (existingSale.isPresent()) {
-                existingSale.get().setDate(Date.from(Instant.now()));
+            Optional<Sale> sale = repository.findById(id);
+            if (sale.isPresent()) {
+                sale.get().setDate(Date.from(Instant.now()));
                 List<Product> products = productRepository.findAllById(ids);
-                existingSale.get().setProducts(products);
-                repository.save(existingSale.get());
-                SaleDTO saleDTO = convertToSaleDTO(existingSale.get());
+                for (int i=0; i<products.size(); i++) {
+                    products.get(i).getSales().add(sale.get());
+                }
+                sale.get().setProducts(products);
+                repository.save(sale.get());
+                SaleDTO saleDTO = convertToSaleDTO(sale.get());
                 List<ProductDTO> productDTO = convertListToProductDTO(products);
                 saleDTO.setProducts(productDTO);
                 return saleDTO;
