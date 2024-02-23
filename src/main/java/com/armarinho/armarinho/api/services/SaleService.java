@@ -96,8 +96,6 @@ public class SaleService {
             Sale sale = new Sale();
             sale.setDate(Date.from(Instant.now()));
             sale = repository.save(sale);
-            //sale.setProducts(products);
-            //repository.save(sale);
             for (int i=0; i< products.size(); i++) {
                 products.get(i).getSales().add(sale);
             }
