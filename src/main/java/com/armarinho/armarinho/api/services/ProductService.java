@@ -8,7 +8,10 @@ import com.armarinho.armarinho.api.models.Product;
 import com.armarinho.armarinho.api.models.ProductColor;
 import com.armarinho.armarinho.api.models.ProductSize;
 import com.armarinho.armarinho.api.models.ProductType;
+import com.armarinho.armarinho.api.repository.ProductColorRepository;
 import com.armarinho.armarinho.api.repository.ProductRepository;
+import com.armarinho.armarinho.api.repository.ProductSizeRepository;
+import com.armarinho.armarinho.api.repository.ProductTypeRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -18,8 +21,14 @@ import java.util.Optional;
 @Service
 public class ProductService {
     private final ProductRepository repository;
-    public ProductService(ProductRepository repository) {
+    private final ProductTypeRepository typeRepository;
+    private final ProductColorRepository colorRepository;
+    private final ProductSizeRepository sizeRepository;
+    public ProductService(ProductRepository repository, ProductTypeRepository typeRepository, ProductColorRepository colorRepository, ProductSizeRepository sizeRepository) {
             this.repository = repository;
+            this.typeRepository = typeRepository;
+            this.colorRepository = colorRepository;
+            this.sizeRepository = sizeRepository;
     }
 
     private ProductDTO convertToProductDTO(Product product) {
@@ -144,7 +153,7 @@ public class ProductService {
             throw new Exception("Product could not be displayed.");
         }
     }
-
+////////////////////////////////////////////////////////////////////////////////
     public ProductDTO update(int id, Product product) throws Exception {
         checkIdNull(id);
         product.setName(product.getName().trim());
@@ -175,7 +184,7 @@ public class ProductService {
             throw new Exception("Product could not be updated.");
         }
     }
-
+////////////////////////////////////////////////////////////////////////////////
     public void delete(int id) throws Exception {
         checkIdNull(id);
         try {
