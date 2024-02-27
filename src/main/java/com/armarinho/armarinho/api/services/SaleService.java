@@ -34,6 +34,19 @@ public class SaleService {
 
     private List<SaleDTO> convertListToSaleDTO(List<Sale> saleList) {
         List<SaleDTO> allSalesDTO = new ArrayList<>();
+
+        for (Sale sale : saleList) {
+            Sale existingSale = sale;
+            if (existingSale != null) {
+                SaleDTO saleDTO = new SaleDTO();
+                saleDTO.setId(existingSale.getId());
+                saleDTO.setDate(existingSale.getDate().toInstant());
+                List <ProductDTO> productDTO = convertListToProductDTO(existingSale.getProducts());
+                saleDTO.setProducts(productDTO);
+                allSalesDTO.add(saleDTO);
+            }
+        }
+        /*
         for (int i=0; i<saleList.size(); i++) {
             Sale existingSale = saleList.get(i);
             if (existingSale != null) {
@@ -45,11 +58,24 @@ public class SaleService {
                 allSalesDTO.add(saleDTO);
             }
         }
+        */
         return allSalesDTO;
     }
 
     private List<ProductDTO> convertListToProductDTO(List<Product> products) {
         List<ProductDTO> productsDTO = new ArrayList<>();
+
+        for (Product product : products) {
+            ProductDTO productDTO = new ProductDTO();
+            productDTO.setId(product.getId());
+            productDTO.setName(product.getName());
+            productDTO.setPrice(product.getPrice());
+            productDTO.setProductTypeDTO(convertToProductTypeDTO(product.getProductType()));
+            productDTO.setProductColorDTO(convertToProductColorDTO(product.getProductColor()));
+            productDTO.setProductSizeDTO(convertToProductZiseDTO(product.getProductSize()));
+            productsDTO.add(productDTO);
+        }
+        /*
         for (int i=0; i<products.size(); i++) {
             ProductDTO productDTO = new ProductDTO();
             productDTO.setId(products.get(i).getId());
@@ -60,6 +86,7 @@ public class SaleService {
             productDTO.setProductSizeDTO(convertToProductZiseDTO(products.get(i).getProductSize()));
             productsDTO.add(productDTO);
         }
+        */
         return productsDTO;
     }
 
@@ -96,9 +123,14 @@ public class SaleService {
             Sale sale = new Sale();
             sale.setDate(Date.from(Instant.now()));
             sale = repository.save(sale);
+            for (Product product : products) {
+                product.getSales().add(sale);
+            }
+            /*
             for (int i=0; i< products.size(); i++) {
                 products.get(i).getSales().add(sale);
             }
+            */
             sale.setProducts(products);
             repository.save(sale);
             SaleDTO saleDTO = convertToSaleDTO(sale);
@@ -144,9 +176,14 @@ public class SaleService {
             if (sale.isPresent()) {
                 sale.get().setDate(Date.from(Instant.now()));
                 List<Product> products = productRepository.findAllById(ids);
+                for (Product product : products) {
+                    product.getSales().add(sale.get());
+                }
+                /*
                 for (int i=0; i<products.size(); i++) {
                     products.get(i).getSales().add(sale.get());
                 }
+                */
                 sale.get().setProducts(products);
                 repository.save(sale.get());
                 SaleDTO saleDTO = convertToSaleDTO(sale.get());
