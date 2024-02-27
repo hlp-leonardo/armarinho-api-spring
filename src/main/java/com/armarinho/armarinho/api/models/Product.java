@@ -1,5 +1,6 @@
 package com.armarinho.armarinho.api.models;
 
+import com.armarinho.armarinho.api.dtos.ProductTypeDTO;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import org.hibernate.annotations.Cascade;
@@ -32,9 +33,9 @@ public class Product {
     @JoinColumn(name = "PRODUCT_SIZE_FK")
     private ProductSize productSize;
 
-//    @ManyToMany
-//    @JoinTable(name = "SALE_PRODUCTS", joinColumns = @JoinColumn(name = "PRODUCT_FK"), inverseJoinColumns = @JoinColumn(name = "SALE_FK"))
-//    private List<Sale> sales;
+    @ManyToMany
+    @JoinTable(name = "SALE_PRODUCTS", joinColumns = @JoinColumn(name = "PRODUCT_FK"), inverseJoinColumns = @JoinColumn(name = "SALE_FK"))
+    private List<Sale> sales;
 
     public Integer getId() {
         return id;
@@ -84,11 +85,11 @@ public class Product {
         this.productSize = productSize;
     }
 
-//    public List<Sale> getSales() {
-//        return sales;
-//    }
+    public List<Sale> getSales() {
+        return sales;
+    }
 
-//    public void setSales(List<Sale> sales) {
-//        this.sales = sales;
-//    }
+    public void setSales(List<Sale> sales) {
+        this.sales = sales;
+    }
 }
