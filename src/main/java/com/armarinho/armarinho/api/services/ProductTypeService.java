@@ -25,6 +25,18 @@ public class ProductTypeService {
 
     private List<ProductTypeDTO> convertListToProductTypeDTO(List<ProductType> productTypeList) {
         List<ProductTypeDTO> allProductTypesDTO = new ArrayList<>();
+
+        for (ProductType type : productTypeList) {
+            ProductType existingProductType = type;
+            if (existingProductType != null) {
+                ProductTypeDTO productTypeDTO = new ProductTypeDTO();
+                productTypeDTO.setId(existingProductType.getId());
+                productTypeDTO.setName(existingProductType.getName());
+                allProductTypesDTO.add(productTypeDTO);
+            }
+        }
+
+        /*
         for (int i=0; i<productTypeList.size(); i++) {
             ProductType existingProductType = productTypeList.get(i);
             if (existingProductType != null) {
@@ -34,6 +46,7 @@ public class ProductTypeService {
                 allProductTypesDTO.add(productTypeDTO);
             }
         }
+        */
         return allProductTypesDTO;
     }
 
@@ -51,12 +64,22 @@ public class ProductTypeService {
 
     private void checkIfNameExists(String name) throws Exception {
         List<ProductType> allProductTypes = repository.findAll();
+
+        for (ProductType type : allProductTypes) {
+            ProductType existingProductType = type;
+            if (existingProductType.getName().equals(name)) {
+                throw new Exception("ProductType name already exists.");
+            }
+        }
+
+        /*
         for (int i=0; i< allProductTypes.size(); i++) {
             ProductType existingProductType = allProductTypes.get(i);
             if (existingProductType.getName().equals(name)) {
                 throw new Exception("ProductType name already exists.");
             }
         }
+        */
     }
 
     public ProductTypeDTO create(ProductType productType) throws Exception {
