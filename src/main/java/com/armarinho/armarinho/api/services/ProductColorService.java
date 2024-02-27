@@ -25,6 +25,18 @@ public class ProductColorService {
 
     private List<ProductColorDTO> convertListToProductColorDTO(List<ProductColor> productColorList) {
         List<ProductColorDTO> allProductColorsDTO = new ArrayList<>();
+
+        for (ProductColor productColorLoop : productColorList) {
+            ProductColor existingProductColor = productColorLoop;
+            if (existingProductColor != null) {
+                ProductColorDTO productColorDTO = new ProductColorDTO();
+                productColorDTO.setId(existingProductColor.getId());
+                productColorDTO.setName(existingProductColor.getName());
+                allProductColorsDTO.add(productColorDTO);
+            }
+        }
+
+        /*
         for (int i=0; i<productColorList.size(); i++) {
             ProductColor existingProductColor = productColorList.get(i);
             if (existingProductColor != null) {
@@ -34,6 +46,7 @@ public class ProductColorService {
                 allProductColorsDTO.add(productColorDTO);
             }
         }
+        */
         return allProductColorsDTO;
     }
 
@@ -51,12 +64,21 @@ public class ProductColorService {
 
     private void checkIfNameExists(String name) throws Exception {
         List<ProductColor> allProductColors = repository.findAll();
+        for (ProductColor productColorLoop : allProductColors) {
+            ProductColor existingProductColor = productColorLoop;
+            if (existingProductColor.getName().equals(name)) {
+                throw new Exception("ProductColor name already exists.");
+            }
+        }
+
+        /*
         for (int i=0; i< allProductColors.size(); i++) {
             ProductColor existingProductColor = allProductColors.get(i);
             if (existingProductColor.getName().equals(name)) {
                 throw new Exception("ProductColor name already exists.");
             }
         }
+        */
     }
 
     public ProductColorDTO create(ProductColor productColor) throws Exception {
