@@ -41,6 +41,23 @@ public class ProductService {
 
     private List<ProductDTO> convertListToProductDTO(List<Product> productList) {
         List<ProductDTO> allProductsDTO = new ArrayList<>();
+        for (Product product : productList) {
+            Product existingProduct = product;
+            if (existingProduct != null) {
+                ProductDTO productDTO = new ProductDTO();
+                productDTO.setId(existingProduct.getId());
+                productDTO.setName(existingProduct.getName());
+                productDTO.setPrice(existingProduct.getPrice());
+                ProductTypeDTO productTypeDTO = convertToProductTypeDTO(existingProduct.getProductType());
+                productDTO.setProductTypeDTO(productTypeDTO);
+                ProductColorDTO productColorDTO = convertToProductColorDTO(existingProduct.getProductColor());
+                productDTO.setProductColor(productColorDTO);
+                ProductSizeDTO productSizeDTO = convertToProductZiseDTO(existingProduct.getProductSize());
+                productDTO.setProductSize(productSizeDTO);
+                allProductsDTO.add(productDTO);
+            }
+        }
+        /*
         for (int i=0; i<productList.size(); i++) {
             Product existingProduct = productList.get(i);
             if (existingProduct != null) {
@@ -57,6 +74,7 @@ public class ProductService {
                 allProductsDTO.add(productDTO);
             }
         }
+        */
         return allProductsDTO;
     }
 
@@ -95,12 +113,20 @@ public class ProductService {
 
     private void checkIfNameExists(String name) throws Exception {
         List<Product> allProducts = repository.findAll();
+        for (Product product : allProducts) {
+            Product existingProduct = product;
+            if (existingProduct.getName().equals(name)) {
+                throw new Exception("Product name already exists.");
+            }
+        }
+        /*
         for (int i=0; i< allProducts.size(); i++) {
             Product existingProduct = allProducts.get(i);
             if (existingProduct.getName().equals(name)) {
                 throw new Exception("Product name already exists.");
             }
         }
+        */
     }
 
     public ProductDTO create(Product product) throws Exception {
