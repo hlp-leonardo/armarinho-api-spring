@@ -25,6 +25,18 @@ public class ProductSizeService {
 
     private List<ProductSizeDTO> convertListToProductSizeDTO(List<ProductSize> productSizeList) {
         List<ProductSizeDTO> allProductSizesDTO = new ArrayList<>();
+
+        for (ProductSize size : productSizeList) {
+            ProductSize existingProductSize = size;
+            if (existingProductSize != null) {
+                ProductSizeDTO productSizeDTO = new ProductSizeDTO();
+                productSizeDTO.setId(existingProductSize.getId());
+                productSizeDTO.setName(existingProductSize.getName());
+                allProductSizesDTO.add(productSizeDTO);
+            }
+        }
+
+        /*
         for (int i=0; i<productSizeList.size(); i++) {
             ProductSize existingProductSize = productSizeList.get(i);
             if (existingProductSize != null) {
@@ -34,6 +46,7 @@ public class ProductSizeService {
                 allProductSizesDTO.add(productSizeDTO);
             }
         }
+        */
         return allProductSizesDTO;
     }
 
@@ -51,12 +64,22 @@ public class ProductSizeService {
 
     private void checkIfNameExists(String name) throws Exception {
         List<ProductSize> allProductSizes = repository.findAll();
+
+        for (ProductSize size : allProductSizes) {
+            ProductSize existingProductSize = size;
+            if (existingProductSize.getName().equals(name)) {
+                throw new Exception("ProductSize name already exists.");
+            }
+        }
+
+        /*
         for (int i=0; i< allProductSizes.size(); i++) {
             ProductSize existingProductSize = allProductSizes.get(i);
             if (existingProductSize.getName().equals(name)) {
                 throw new Exception("ProductSize name already exists.");
             }
         }
+        */
     }
 
     public ProductSizeDTO create(ProductSize productSize) throws Exception {
