@@ -41,9 +41,10 @@ public class ProductController {
         return updateProduct;
     }
 
-    @PutMapping("/{id}/productType/{id}")
-    public void update(@PathVariable("id") int typeId) {
-        ProductTypeDTO updateTypeInProduct = service.update(typeId);
+    @PutMapping("/{id}/product-types/{typeId}")
+    public ProductTypeDTO update(@PathVariable("id") int id, @PathVariable int typeId) {
+        ProductTypeDTO updateTypeInProduct = service.update(id, typeId);
+        return updateTypeInProduct;
     }
 
     @DeleteMapping("/{id}")

@@ -153,7 +153,7 @@ public class ProductService {
             throw new Exception("Product could not be displayed.");
         }
     }
-////////////////////////////////////////////////////////////////////////////////
+
     public ProductDTO update(int id, Product product) throws Exception {
         checkIdNull(id);
         product.setName(product.getName().trim());
@@ -184,7 +184,16 @@ public class ProductService {
             throw new Exception("Product could not be updated.");
         }
     }
-////////////////////////////////////////////////////////////////////////////////
+
+    public ProductTypeDTO update(int id, int typeId) {
+        Optional<Product> product = repository.findById(id);
+        Optional<ProductType> productType = typeRepository.findById(typeId);
+        product.get().setProductType(productType.get());
+        repository.save(product.get());
+        ProductTypeDTO productTypeDTO = convertToProductTypeDTO(productType.get());
+        return productTypeDTO;
+    }
+
     public void delete(int id) throws Exception {
         checkIdNull(id);
         try {
