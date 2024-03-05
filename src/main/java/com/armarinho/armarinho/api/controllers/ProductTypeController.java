@@ -10,6 +10,7 @@ import java.util.List;
 @RequestMapping("/product-types")
 @RestController
 public class ProductTypeController {
+
     private final ProductTypeService service;
     public ProductTypeController(ProductTypeService service) {
         this.service = service;

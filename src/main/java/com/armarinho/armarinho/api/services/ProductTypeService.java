@@ -11,6 +11,7 @@ import java.util.Optional;
 
 @Service
 public class ProductTypeService {
+
     private final ProductTypeRepository repository;
     public ProductTypeService(ProductTypeRepository repository) {
         this.repository = repository;

@@ -1,7 +1,5 @@
 package com.armarinho.armarinho.api.models;
 
-import com.armarinho.armarinho.api.dtos.ProductDTO;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -9,6 +7,7 @@ import java.util.List;
 @Entity
 @Table(name = "PRODUCT_TYPES")
 public class ProductType {
+
     @Id
     @Column(name = "PRODUCT_TYPE_ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
