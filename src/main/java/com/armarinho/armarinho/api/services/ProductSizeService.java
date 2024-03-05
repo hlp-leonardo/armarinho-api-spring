@@ -11,6 +11,7 @@ import java.util.Optional;
 
 @Service
 public class ProductSizeService {
+
     private final ProductSizeRepository repository;
     public ProductSizeService(ProductSizeRepository repository) {
         this.repository = repository;

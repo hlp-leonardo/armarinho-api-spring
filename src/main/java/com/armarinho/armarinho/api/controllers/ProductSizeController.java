@@ -10,6 +10,7 @@ import java.util.List;
 @RequestMapping("/product-sizes")
 @RestController
 public class ProductSizeController {
+
     private final ProductSizeService service;
     public ProductSizeController(ProductSizeService service) {
         this.service = service;
