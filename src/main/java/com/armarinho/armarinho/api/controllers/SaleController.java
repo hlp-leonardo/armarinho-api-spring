@@ -1,7 +1,6 @@
 package com.armarinho.armarinho.api.controllers;
 
 import com.armarinho.armarinho.api.dtos.SaleDTO;
-import com.armarinho.armarinho.api.models.Sale;
 import com.armarinho.armarinho.api.services.SaleService;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,6 +9,7 @@ import java.util.List;
 @RequestMapping("/sales")
 @RestController
 public class SaleController {
+
     private final SaleService service;
     public SaleController(SaleService service) {
         this.service = service;

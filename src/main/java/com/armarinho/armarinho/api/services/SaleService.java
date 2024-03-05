@@ -4,8 +4,6 @@ import com.armarinho.armarinho.api.dtos.*;
 import com.armarinho.armarinho.api.models.*;
 import com.armarinho.armarinho.api.repository.ProductRepository;
 import com.armarinho.armarinho.api.repository.SaleRepository;
-import jakarta.persistence.criteria.CriteriaBuilder;
-import org.hibernate.collection.spi.PersistentList;
 import org.springframework.stereotype.Service;
 
 import java.sql.Date;

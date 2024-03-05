@@ -1,10 +1,10 @@
 package com.armarinho.armarinho.api.dtos;
 
 import java.time.Instant;
-import java.util.Date;
 import java.util.List;
 
 public class SaleDTO {
+
     Integer id;
     Instant date;
     List<ProductDTO> products;
