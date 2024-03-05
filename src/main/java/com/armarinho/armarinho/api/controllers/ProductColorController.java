@@ -10,6 +10,7 @@ import java.util.List;
 @RequestMapping("/product-colors")
 @RestController
 public class ProductColorController {
+
     private final ProductColorService service;
     public ProductColorController(ProductColorService service) {
         this.service = service;

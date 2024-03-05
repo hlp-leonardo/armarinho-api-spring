@@ -1,6 +1,7 @@
 package com.armarinho.armarinho.api.dtos;
 
 public class ProductColorDTO {
+
     private Integer id;
     private String name;
 
