@@ -20,6 +20,7 @@ import java.util.Optional;
 
 @Service
 public class ProductService {
+
     private final ProductRepository repository;
     private final ProductTypeRepository typeRepository;
     private final ProductColorRepository colorRepository;

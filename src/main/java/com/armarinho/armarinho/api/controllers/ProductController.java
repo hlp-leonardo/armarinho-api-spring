@@ -3,7 +3,6 @@ package com.armarinho.armarinho.api.controllers;
 import com.armarinho.armarinho.api.dtos.ProductDTO;
 import com.armarinho.armarinho.api.dtos.ProductTypeDTO;
 import com.armarinho.armarinho.api.models.Product;
-import com.armarinho.armarinho.api.models.ProductType;
 import com.armarinho.armarinho.api.services.ProductService;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,6 +11,7 @@ import java.util.List;
 @RequestMapping("/products")
 @RestController
 public class ProductController {
+
     private final ProductService service;
     public ProductController(ProductService service) {
         this.service = service;
